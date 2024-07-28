@@ -5,15 +5,16 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
 import MovieList from '../components/MovieList';
 import SearchBar from '../components/SearchBar';
+import ErrorMessage from '../components/ErrorMessage';
 import useMovies from '../hooks/useMovies';
 import {Movie} from '../types/movie';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState('');
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const {movies, isLoading, loadMore, search} = useMovies();
+  const {movies, isLoading, error, loadMore, search, retry} = useMovies();
 
   const handleSearch = (text: string) => {
     setSearchQuery(text);
@@ -27,12 +28,19 @@ const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <SearchBar value={searchQuery} onChangeText={handleSearch} />
-      <MovieList
-        movies={movies}
-        onLoadMore={loadMore}
-        onMoviePress={handleMoviePress}
-        isLoading={isLoading}
-      />
+      {error ? (
+        <ErrorMessage
+          message="Error when fetching data about movie"
+          onRetry={retry}
+        />
+      ) : (
+        <MovieList
+          movies={movies}
+          onLoadMore={loadMore}
+          onMoviePress={handleMoviePress}
+          isLoading={isLoading}
+        />
+      )}
     </View>
   );
 };

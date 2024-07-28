@@ -32,6 +32,9 @@ const useMovies = () => {
   const isLoading = searchQuery
     ? searchMoviesQuery.isLoading
     : popularMoviesQuery.isLoading;
+  const error = searchQuery
+    ? searchMoviesQuery.error
+    : popularMoviesQuery.error;
 
   const loadMore = useCallback(() => {
     if (searchQuery) {
@@ -45,7 +48,15 @@ const useMovies = () => {
     setSearchQuery(query);
   }, []);
 
-  return {movies, isLoading, loadMore, search};
+  const retry = useCallback(() => {
+    if (searchQuery) {
+      searchMoviesQuery.refetch();
+    } else {
+      popularMoviesQuery.refetch();
+    }
+  }, [searchQuery, searchMoviesQuery, popularMoviesQuery]);
+
+  return {movies, isLoading, error, loadMore, search, retry};
 };
 
 export default useMovies;
