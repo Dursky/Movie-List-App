@@ -9,7 +9,10 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({movie, onPress}) => {
   return (
-    <TouchableOpacity onPress={() => onPress(movie)} style={styles.container}>
+    <TouchableOpacity
+      onPress={() => onPress(movie)}
+      style={styles.container}
+      testID={'movie-card'}>
       <Image
         source={{uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`}}
         style={styles.poster}

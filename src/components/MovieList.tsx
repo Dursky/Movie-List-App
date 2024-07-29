@@ -20,11 +20,14 @@ const MovieList: React.FC<MovieListProps> = ({
     if (!isLoading) {
       return null;
     }
-    return <ActivityIndicator style={styles.loader} />;
+    return (
+      <ActivityIndicator style={styles.loader} testID="loading-indicator" />
+    );
   };
 
   return (
     <FlatList
+      testID="movie-list"
       data={movies}
       renderItem={({item}) => <MovieCard movie={item} onPress={onMoviePress} />}
       keyExtractor={item => item.id.toString()}

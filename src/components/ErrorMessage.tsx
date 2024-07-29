@@ -8,11 +8,16 @@ interface ErrorMessageProps {
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({message, onRetry}) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      testID="retry-button"
+      accessibilityLabel="Retry button">
       <Text style={styles.errorText}>{message}</Text>
       {onRetry && (
         <TouchableOpacity style={styles.retryButton} onPress={onRetry}>
-          <Text style={styles.retryText}>Try Again</Text>
+          <Text style={styles.retryText} testID="retry-text">
+            Try Again
+          </Text>
         </TouchableOpacity>
       )}
     </View>
